@@ -1,7 +1,7 @@
 const contactService = require("./contacts");
 // console.log(contactService);
 
-async function invokeAction({ action, name, email, phone }) {
+async function invokeAction({ action, id, name, email, phone }) {
   //   console.log(action);
 
   switch (action) {
@@ -9,16 +9,36 @@ async function invokeAction({ action, name, email, phone }) {
       const allContacts = await contactService.listContacts();
       console.log(allContacts);
       break;
+    case "getContactById":
+      const contact = await contactService.getContactById(id);
+      console.log(contact);
+      break;
+    case "removeContact":
+      break;
+    case "addContact":
+      const newContact = await contactService.addContact({
+        name,
+        email,
+        phone,
+      });
+      console.log(newContact);
+      break;
 
     default:
+      console.warn("\x1B[31m Unknown action type!");
       break;
   }
 }
 
-invokeAction({ action: "listContacts" });
+// invokeAction({ action: "listContacts" });
 // invokeAction({ action: "getContactById", id: "AeHIrLTr6JkxGE6SN-0Rw" });
 // invokeAction({ action: "removeContact", id: "AeHIrLTr6JkxGE6SN-0Rw" });
-// invokeAction({ action: "addContact" });
+invokeAction({
+  action: "addContact",
+  name: "Vova",
+  email: "qwerty@mail",
+  phone: "25339841",
+});
 
 // const fs = require("fs");
 // fs.readFile("./db/Test.txt", (error, data) => {
