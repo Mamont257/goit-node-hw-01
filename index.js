@@ -1,21 +1,22 @@
+const yargs = require("yargs");
+const { hideBin } = require("yargs/helpers");
 const contactService = require("./contacts");
-// console.log(contactService);
 
 async function invokeAction({ action, id, name, email, phone }) {
-  //   console.log(action);
-
   switch (action) {
-    case "listContacts":
+    case "list":
       const allContacts = await contactService.listContacts();
       console.log(allContacts);
       break;
-    case "getContactById":
+    case "get":
       const contact = await contactService.getContactById(id);
       console.log(contact);
       break;
-    case "removeContact":
+    case "remove":
+      const deleteContact = await contactService.removeContact(id);
+      console.log(deleteContact);
       break;
-    case "addContact":
+    case "add":
       const newContact = await contactService.addContact({
         name,
         email,
@@ -30,38 +31,7 @@ async function invokeAction({ action, id, name, email, phone }) {
   }
 }
 
-// invokeAction({ action: "listContacts" });
-// invokeAction({ action: "getContactById", id: "AeHIrLTr6JkxGE6SN-0Rw" });
-// invokeAction({ action: "removeContact", id: "AeHIrLTr6JkxGE6SN-0Rw" });
-invokeAction({
-  action: "addContact",
-  name: "Vova",
-  email: "qwerty@mail",
-  phone: "25339841",
-});
+const arr = hideBin(process.argv);
 
-// const fs = require("fs");
-// fs.readFile("./db/Test.txt", (error, data) => {
-//   console.log(error);
-//   console.log(data);
-// });
-
-// const fs = require("fs").promises;
-// // fs.readFile("./db/Test.txt")
-// //   .then((data) => console.log(data))
-// //   .catch((err) => console.log(err));
-
-// async function app() {
-//   //   const buffer = await fs.readFile("./db/Test.txt");
-//   //     const text = buffer.toString();
-
-//   // const result = await fs.appendFile("./db/Test.txt", "QWERTYUJNBG");
-
-//   //   const result = await fs.writeFile("./db/Test1.txt", "QWERTYUJNBG");
-
-//   const result = await fs.unlink("./db/Test1.txt");
-
-//   console.log(result);
-// }
-
-// app();
+const { argv } = yargs(arr);
+invokeAction(argv);
